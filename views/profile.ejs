@@ -1,0 +1,82 @@
+<% include ./partials/header.ejs %>
+
+<div class="w-full min-h-screen bg-zinc-800 text-white pt-1">
+    <div class="prof-details flex flex-col items-center mt-2">
+        <div class="relative">
+            <form action="/profile-upload" method="post" enctype="multipart/form-data" id="hidden-form" hidden >
+                <input type="file" name="profileImg">
+            </form>
+            <span id="upload-profile" class="w-6 h-6 bottom-0 right-1 rounded-full flex justify-center items-center bg-zinc-300 hover:bg-zinc-400">
+                <i class="ri-pencil-fill text-zinc-900"></i>
+            </span>
+            <div class="bg-zinc-300 w-32 h-32 rounded-full overflow-hidden">
+                <% if (user.profileImg){ %>
+                    <img class="w-full h-full object-cover"
+                    src="/images/uploads/<%= user.profileImg %>">
+                <% }else { %>
+                    <img class="w-full h-full object-cover"
+                    src="https://imgs.search.brave.com/ma7sEjlAFcmBAqpdxMvbQfehHQhOJ3dq-l8rWJdCTq0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzYz/LzM2MF9GXzY0Njc2/MzgzX0xkYm1oaU5N/NllwemIzRk00UFB1/RlA5ckhlN3JpOEp1/LmpwZw">
+                <% } %>
+            </div>
+        </div>
+        <h1 class="font-semibold text-xl mt-3"><%= user.fullname %></h1>
+        <h3 class="text-md">@<%= user.username %></h3>
+        <a class="bg-red-600 hover:bg-red-500 text-sm mt-5 px-7 font-semibold py-3 rounded-xl" href="/create-post">Add New Post</a>
+    </div>  
+
+    <div class="cards flex flex-wrap md:justify-start justify-center md:gap-7 gap-5 md:px-20 px-9 py-5 mt-3">
+        <!-- USER POSTS -->
+        <div class="card">
+            <div class="bg-zinc-400 md:w-52 w-40 md:h-40 h-32 rounded-lg overflow-hidden">
+                <% if (user.posts[0]){ %>
+                    <img class="w-full h-full object-cover" 
+                    src="/images/uploads/<%= user.posts[0]?.img %>" >
+                <% }else { %>
+                    <img class="w-full h-full object-cover" 
+                    src="https://plus.unsplash.com/premium_photo-1678037611091-20678098a609?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjczfHxlbXB0eSUyMHBvc3QlMjBpY29uJTIwMmR8ZW58MHx8MHx8fDA%3D" >
+                <% } %>
+            </div>
+            <a href="/show/posts" class="inline-block mx-3 text-white font-semibold mt-2">Your Posts</a>
+            <h6 class="mx-3 text-xs opacity-80 font-medium"><%= user.posts.length %> posts</h6>
+        </div>
+        <!-- LIKED POSTS -->
+        <div class="card">
+            <div class="bg-zinc-400 md:w-52 w-40 md:h-40 h-32 rounded-lg overflow-hidden">
+                <% if (user.likes.length > 0){ %>
+                    <img class="w-full h-full object-cover" 
+                    src="/images/uploads/<%= user.likes[0].img %>" >
+                <% }else { %>
+                    <img class="w-full h-full object-cover" 
+                    src="https://plus.unsplash.com/premium_photo-1682309514572-06228b50ada7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGxpa2VkJTIwcG9zdCUyMGljb24lMjAyZHxlbnwwfHwwfHx8MA%3D%3D" >
+                <% } %>
+            </div>
+            <a href="/show/likes" class="inline-block mx-3 text-white font-semibold mt-2">Liked Posts</a>
+            <h6 class="mx-3 text-xs opacity-80 font-medium"><%= user.likes.length %> posts</h6>
+        </div>
+        <!-- BOARDS -->
+        <div class="card">
+            <div class="bg-zinc-400 md:w-52 w-40 md:h-40 h-32 rounded-lg overflow-hidden">
+                <% if (!user.boards[0]){ %>
+                    <img class="w-full h-full object-cover" 
+                    src="https://plus.unsplash.com/premium_photo-1677401495278-8c7fffe00792?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGxpa2VkJTIwcG9zdCUyMGljb24lMjAyZHxlbnwwfHwwfHx8MA%3D%3D" >
+                <% }else { %>
+                    <img class="w-full h-full object-cover" 
+                    src="/images/uploads/<%= user.boards[0].img %>" >
+                <% } %>
+            </div>
+            <a href="/show/boards" class="inline-block mx-3 text-white font-semibold mt-2">Pinned Posts</a>
+            <h6 class="mx-3 text-xs opacity-80 font-medium"><%= user.boards.length %> posts</h6>
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector("#upload-profile").addEventListener('click', () => {
+        document.querySelector('#hidden-form input').click();
+    })
+    
+    document.querySelector("#hidden-form input").addEventListener('change', () => {
+        document.querySelector("#hidden-form").submit();
+    })
+</script>
+
+<% include ./partials/footer.ejs %>

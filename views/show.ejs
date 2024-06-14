@@ -1,0 +1,61 @@
+<% include ./partials/header.ejs %>
+
+<div class="w-full min-h-screen bg-zinc-800 px-10 py-8">
+    <h2 class="text-white text-3xl p-2 mb-2">
+
+      <% if (content==='posts'){ %>
+          <% if (user.posts.length) { %>
+              Your Post's will show here
+          <% } else { %>
+              You haven't Posted yet!
+          <% } %>
+      <% } else if (content==='boards'){ %>
+          <% if (user.boards.length) { %>
+              Your Pinned Post's will show here
+          <% } else { %>
+              You haven't Pinned any Post yet!
+          <% } %>
+      <% } else { %>
+          <% if (user.likes.length) { %>
+              Your Liked Post's will show here
+          <% } else { %>
+              You haven't Liked any Post yet!
+          <% } %>
+      <% } %>
+
+    </h2>
+    <hr class="opacity-40 md:w-1/4 w-full text-tighter mb-5">
+    <div class="pt-0 container text-white">
+
+      <% if (content==='posts'){ %>
+        <% user.posts.forEach(post => { %>
+          <div class="box w-[100%] rounded-lg md:mb-2 mb-5">
+            <a href="" >
+              <img class="user-post-image rounded-md" src="/images/uploads/<%= post.img %>" alt="post"/>
+            </a>
+            <p class="px-1 md:mt-1 mt-2 opacity-90 leading-5 md:text-md text-xl"><%= post.title %></p>
+          </div>
+        <% }) %>
+      <% } else if (content==='boards'){ %>
+        <% user.boards.forEach(post => { %>
+          <div class="box w-[100%] rounded-lg md:mb-2 mb-5">
+            <a href="" >
+              <img class="user-post-image rounded-md" src="/images/uploads/<%= post.img %>" alt="post"/>
+            </a>
+            <p class="px-1 md:mt-1 mt-2 opacity-90 leading-5 md:text-md text-xl"><%= post.title %></p>
+          </div>
+        <% }) %>
+      <% } else{ %>
+        <% user.likes.forEach(post => { %>
+          <div class="box w-[100%] rounded-lg md:mb-2 mb-5">
+            <a href="" >
+              <img class="user-post-image rounded-md" src="/images/uploads/<%= post.img %>" alt="post"/>
+            </a>
+            <p class="px-1 md:mt-1 mt-2 opacity-90 leading-5 md:text-md text-xl"><%= post.title %></p>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+</div> 
+
+<% include ./partials/footer.ejs %>

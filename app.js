@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 var passport = require('passport');
-var flash = require('connect-flash')
+var flash = require('connect-flash');
+require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,7 +21,7 @@ app.set('view engine', 'ejs');
 app.use(session({
   resave: false,
   saveUninitialized: false,
-  secret: 'Nikhil'
+  secret: process.env.SECRET_KEY
 }))
 
 // Passport Initialization
